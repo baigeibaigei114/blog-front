@@ -16,9 +16,9 @@ export default defineConfig(({ mode }) => {
     // GitHub Pages 部署配置
     // 如果部署在子路径（如 https://username.github.io/blog/），设置 base: '/blog/'
     // 如果部署在自定义域名根路径，设置 base: '/'
-    base: isProduction ? (process.env.VITE_BASE_PATH || '/') : '/',
+    base: '/blog-front/',
     build: {
-      outDir: 'dist',
+      outDir: 'docs',
       assetsDir: 'assets',
       sourcemap: false
     }
