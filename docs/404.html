@@ -4,16 +4,10 @@
   <meta charset="UTF-8">
   <title>DevBlog</title>
   <script>
-    // SPA 路由支持：将所有路径重定向到 index.html
-    var pathSegmentsToKeep = 1;
-    var l = window.location;
-    l.replace(
-      l.protocol + '//' + l.hostname + (l.port ? ':' + l.port : '') +
-      l.pathname.split('/').slice(0, 1 + pathSegmentsToKeep).join('/') + '/?/' +
-      l.pathname.slice(1).split('/').slice(pathSegmentsToKeep).join('/').replace(/&/g, '~and~') +
-      (l.search ? '&' + l.search.slice(1).replace(/&/g, '~and~') : '') +
-      l.hash
-    );
+    // GitHub Pages SPA hack
+    // 将路径保存到 sessionStorage，然后重定向到首页
+    sessionStorage.redirect = location.pathname + location.search + location.hash;
+    location.replace('/blog-front/');
   </script>
 </head>
 <body>

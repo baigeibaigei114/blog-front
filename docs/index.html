@@ -5,18 +5,18 @@
     <link rel="icon" type="image/svg+xml" href="/blog-front/favicon.svg" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>DevBlog - 我的博客</title>
-    <!-- SPA 路由支持：处理 404 重定向回来的路径 -->
     <script>
-      var l = window.location;
-      if (l.search[1] === '/' ) {
-        var decoded = l.search.slice(1).split('&').map(function(s) {
-          return s.replace(/~and~/g, '&')
-        }).join('?');
-        window.history.replaceState(null, null, l.pathname + decoded + l.hash);
-      }
+      // 恢复 404 重定向前的路径
+      (function() {
+        var redirect = sessionStorage.redirect;
+        delete sessionStorage.redirect;
+        if (redirect && redirect !== '/blog-front/') {
+          history.replaceState(null, null, redirect);
+        }
+      })();
     </script>
-    <script type="module" crossorigin src="/blog-front/assets/index-DdeBLKo_.js"></script>
-    <link rel="modulepreload" crossorigin href="/blog-front/assets/api-Dz5-Dqoo.js">
+    <script type="module" crossorigin src="/blog-front/assets/index-V41i2G84.js"></script>
+    <link rel="modulepreload" crossorigin href="/blog-front/assets/api-DXim8ONf.js">
     <link rel="modulepreload" crossorigin href="/blog-front/assets/runtime-core.esm-bundler-DvQzuJCA.js">
     <link rel="modulepreload" crossorigin href="/blog-front/assets/pinia-C0vjEIGV.js">
     <link rel="stylesheet" crossorigin href="/blog-front/assets/index-B_HTdvka.css">
