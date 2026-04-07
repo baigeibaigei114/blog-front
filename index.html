@@ -6,12 +6,13 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>DevBlog - 我的博客</title>
     <script>
-      // 恢复 404 重定向前的路径
+      // 处理 404 重定向：从 hash 中恢复原始路径（不刷新页面）
       (function() {
-        var redirect = sessionStorage.redirect;
-        delete sessionStorage.redirect;
-        if (redirect && redirect !== '/blog-front/') {
-          history.replaceState(null, null, redirect);
+        var hash = location.hash;
+        if (hash && hash.length > 1) {
+          var path = hash.substring(1);
+          // 只修改 URL，不刷新页面
+          history.replaceState(null, null, path);
         }
       })();
     </script>
