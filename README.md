@@ -1,7 +1,7 @@
 # DevBlog 前端
 
 基于 Vue 3 + Vite 的博客前端项目。
-
+所有内容均为ai生成
 ## 技术栈
 
 - Vue 3.5 + Composition API
