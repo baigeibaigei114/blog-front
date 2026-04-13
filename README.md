@@ -105,59 +105,6 @@ VITE_BASE_PATH=/blog/
 npm run build
 ```
 
-### 3. 部署
-
-**方式一：手动部署**
-
-将 `dist` 目录内容推送到 GitHub 仓库的 `gh-pages` 分支。
-
-**方式二：GitHub Actions 自动部署**
-
-创建 `.github/workflows/deploy.yml`：
-
-```yaml
-name: Deploy to GitHub Pages
-
-on:
-  push:
-    branches: [ main ]
-
-permissions:
-  contents: read
-  pages: write
-  id-token: write
-
-jobs:
-  build-and-deploy:
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v4
-
-      - name: Setup Node
-        uses: actions/setup-node@v4
-        with:
-          node-version: '20'
-          cache: 'npm'
-          cache-dependency-path: blog-frontend/package-lock.json
-
-      - name: Install dependencies
-        working-directory: blog-frontend
-        run: npm ci
-
-      - name: Build
-        working-directory: blog-frontend
-        run: npm run build
-
-      - name: Upload artifact
-        uses: actions/upload-pages-artifact@v3
-        with:
-          path: blog-frontend/dist
-
-      - name: Deploy to GitHub Pages
-        uses: actions/deploy-pages@v4
-```
-
-## 功能特性
 
 ### 前台功能
 
