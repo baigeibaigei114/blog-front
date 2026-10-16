@@ -1,26 +1,46 @@
 <!doctype html>
-<html lang="zh-CN">
+<html lang="zh-CN" data-theme="light">
   <head>
     <meta charset="UTF-8" />
     <link rel="icon" type="image/svg+xml" href="/blog-front/favicon.svg" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>DevBlog - 我的博客</title>
+    <meta name="color-scheme" content="light dark" />
+    <title>DevBlog · 技术手记</title>
     <script>
-      // 处理 404 重定向：从 hash 中恢复原始路径（不刷新页面）
-      (function() {
-        var hash = location.hash;
-        if (hash && hash.length > 1) {
-          var path = hash.substring(1);
-          // 只修改 URL，不刷新页面
-          history.replaceState(null, null, path);
+      ;(function () {
+        try {
+          document.documentElement.dataset.theme =
+            localStorage.getItem('devblog_theme') === 'dark' ? 'dark' : 'light'
+        } catch (_) {}
+        var base = '/blog-front/'
+        var target = new URLSearchParams(location.search).get('__restore')
+        if (
+          !target &&
+          location.pathname === base &&
+          location.hash.indexOf('#/') === 0
+        )
+          target = base + location.hash.slice(2)
+        if (
+          target &&
+          target.indexOf(base) === 0 &&
+          !/[\\\u0000-\u001f]/.test(target)
+        ) {
+          var url = new URL(target, location.origin)
+          if (
+            url.origin === location.origin &&
+            url.pathname.indexOf(base) === 0
+          )
+            history.replaceState(null, '', url.pathname + url.search + url.hash)
         }
-      })();
+      })()
     </script>
-    <script type="module" crossorigin src="/blog-front/assets/index-DdeBLKo_.js"></script>
-    <link rel="modulepreload" crossorigin href="/blog-front/assets/api-Dz5-Dqoo.js">
-    <link rel="modulepreload" crossorigin href="/blog-front/assets/runtime-core.esm-bundler-DvQzuJCA.js">
-    <link rel="modulepreload" crossorigin href="/blog-front/assets/pinia-C0vjEIGV.js">
-    <link rel="stylesheet" crossorigin href="/blog-front/assets/index-B_HTdvka.css">
+    <script type="module" crossorigin src="/blog-front/assets/index-BZK25Mu3.js"></script>
+    <link rel="modulepreload" crossorigin href="/blog-front/assets/api-CKvTgXXj.js">
+    <link rel="modulepreload" crossorigin href="/blog-front/assets/preload-helper-nd_Bajg3.js">
+    <link rel="modulepreload" crossorigin href="/blog-front/assets/runtime-core.esm-bundler-JrzvWew-.js">
+    <link rel="modulepreload" crossorigin href="/blog-front/assets/runtime-dom.esm-bundler-IdNu_XPk.js">
+    <link rel="modulepreload" crossorigin href="/blog-front/assets/pinia-rXPiDndZ.js">
+    <link rel="stylesheet" crossorigin href="/blog-front/assets/index-BLbBkIqK.css">
   </head>
   <body>
     <div id="app"></div>

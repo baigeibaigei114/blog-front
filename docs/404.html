@@ -1,19 +1,20 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="zh-CN">
-<head>
-  <meta charset="UTF-8">
-  <title>DevBlog</title>
-  <script>
-    // 将路径作为 URL 参数传递
-    var path = location.pathname + location.search + location.hash;
-    // 去掉 /blog-front 前缀
-    if (path.startsWith('/blog-front')) {
-      path = path.substring('/blog-front'.length) || '/';
-    }
-    // 重定向到首页，带上路径参数
-    location.replace('/blog-front/#' + path);
-  </script>
-</head>
-<body>
-</body>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>DevBlog · 正在恢复页面</title>
+    <script>
+      ;(function () {
+        var base = '/blog-front/'
+        if (location.pathname.indexOf(base) !== 0) return
+        var target = location.pathname + location.search + location.hash
+        if (/[\\\u0000-\u001f]/.test(target)) return
+        location.replace(base + '?__restore=' + encodeURIComponent(target))
+      })()
+    </script>
+  </head>
+  <body>
+    <p>页面暂不可用。<a href="/blog-front/">返回 DevBlog</a></p>
+  </body>
 </html>
