@@ -30,7 +30,11 @@ npx --yes --package @playwright/cli playwright-cli -s=pages-local close
 
 ## 发布与线上结果
 
-发布后的提交、GitHub 运行及访问结果在本次执行结束前补充。初次线上检查：Windows curl/Powershell TLS 验证失败，Edge 返回 ERR_CERT_AUTHORITY_INVALID；未关闭证书校验、未更改系统证书或代理设置。这不能记为正常 HTTPS 浏览器验收通过。
+首次发布提交 259af09，源于 master dd32d36；GitHub 运行 38921859818 的 build/deploy/report-build-status 全部 success。发布时保留旧哈希资源供缓存中的旧页面加载，新入口只引用本轮生产资源。
+
+初次线上检查：Windows curl/Powershell TLS 验证失败，Edge 返回 ERR_CERT_AUTHORITY_INVALID。仅读取握手证书诊断后确认其 subject 为 blockpage.nextdns.io、issuer 为 NextDNS Blockpage Edge CA，实际到达本机 DNS 的拦截页，并非 GitHub 的证书。Google 公共 DNS 返回 185.199.108.153 等 GitHub Pages 地址；单次 curl --resolve 及独立 QA 浏览器的 host-resolver-rules 指定该地址后，保持 TLS 验证即可读取真实站点。未更改系统 DNS、代理或证书，默认 DNS 访问仍可能受 NextDNS 规则影响。
+
+真实站点检查已发现并修复空可选查询参数问题：默认归档请求原来发送 q=，后端返回 400“q 需要 1–100 字符”；统一 API 层改为省略空字符串/null/undefined 查询参数，保留非空筛选、0 与 false。pages-query.js 在生产构建 HTTP 拦截夹具上通过 3 组检查：默认省略、非空组合保留、清除后省略；这与真实网络检查分开记录。修复后的发布与完整线上结果在本次执行结束前补充。
 
 后端真实 v1 仍需单独联调；静态部署成功不能证明文章、登录、收件箱或自动发布业务可用。接口失败仍显示真实错误，不提供生产 mock。
 

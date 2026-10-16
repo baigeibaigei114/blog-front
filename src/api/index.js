@@ -49,6 +49,14 @@ export async function request(
     idempotent = false,
   } = {},
 ) {
+  // Optional filters must be absent when empty; q= is invalid in the v1 contract.
+  const queryParams = params
+    ? Object.fromEntries(
+        Object.entries(params).filter(
+          ([, value]) => value !== '' && value != null,
+        ),
+      )
+    : undefined
   const operation = idempotent ? idempotencyKey(method, path, body) : null
   const headers = {}
   if (restricted && auth.getToken())
@@ -59,7 +67,7 @@ export async function request(
     if (mockEnabled) {
       const { mockRequest } = await import('./mock.js')
       envelope = await mockRequest(method, path, {
-        params,
+        params: queryParams,
         body,
         signal,
         headers,
@@ -68,7 +76,7 @@ export async function request(
       const response = await client.request({
         method,
         url: path,
-        params,
+        params: queryParams,
         data: body,
         signal,
         headers,
