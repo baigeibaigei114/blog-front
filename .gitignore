@@ -1,0 +1,10 @@
+node_modules/
+docs/
+dist/
+.playwright-cli/
+.env.local
+.env.*.local
+.env.production
+/.nojekyll
+.worktrees/
+output/

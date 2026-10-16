@@ -1,0 +1,332 @@
+:root {
+  --paper: #f6f3eb;
+  --panel: #eeebe2;
+  --panel-subtle: #e5e1d5;
+  --ink: #242d2b;
+  --ink-soft: #3f4b48;
+  --muted: #66726c;
+  --line: #d6d8cb;
+  --line-subtle: #e4e6db;
+  --green: #195b50;
+  --green-text: #195b50;
+  --green-hover: #12433b;
+  --soft: #e2e8dc;
+  --rust: #a6402e;
+  --rust-soft: #f5e4e0;
+  --amber: #b07219;
+  --amber-soft: #f7ede0;
+  --shadow: 0 16px 40px rgba(26, 42, 38, 0.08);
+  --shadow-lg: 0 24px 70px rgba(26, 42, 38, 0.16);
+  --code-bg: #1e2725;
+  --code-header: #283431;
+  --code-text: #e6eee8;
+  --serif:
+    Georgia, 'Source Han Serif SC', 'Noto Serif CJK SC', 'Songti SC', SimSun,
+    serif;
+  --sans:
+    'Source Han Sans SC', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto,
+    'PingFang SC', 'Microsoft YaHei', sans-serif;
+  --mono: 'JetBrains Mono', Consolas, Monaco, monospace;
+  color-scheme: light;
+}
+[data-theme='dark'] {
+  --paper: #141817;
+  --panel: #1b211f;
+  --panel-subtle: #242c29;
+  --ink: #e5e8e1;
+  --ink-soft: #c5cbc4;
+  --muted: #8b9590;
+  --line: #2b3532;
+  --line-subtle: #202725;
+  --green: #378b7b;
+  --green-text: #69b9a6;
+  --green-hover: #47a391;
+  --soft: #202b28;
+  --rust: #d96652;
+  --rust-soft: #30211e;
+  --amber: #d99636;
+  --amber-soft: #332719;
+  --shadow: 0 16px 40px rgba(0, 0, 0, 0.4);
+  --shadow-lg: 0 24px 70px rgba(0, 0, 0, 0.65);
+  --code-bg: #0f1312;
+  --code-header: #19201e;
+  --code-text: #e3ebe5;
+  color-scheme: dark;
+}
+* {
+  box-sizing: border-box;
+}
+body {
+  margin: 0;
+  background: var(--paper);
+  color: var(--ink);
+  font: 15px/1.75 var(--sans);
+}
+button,
+input,
+textarea,
+select {
+  font: inherit;
+  color: inherit;
+}
+button,
+a {
+  -webkit-tap-highlight-color: transparent;
+  touch-action: manipulation;
+}
+button {
+  cursor: pointer;
+  border: 0;
+  background: none;
+}
+a {
+  color: inherit;
+  text-decoration: none;
+  text-underline-offset: 5px;
+}
+button:focus-visible,
+a:focus-visible,
+input:focus-visible,
+textarea:focus-visible,
+select:focus-visible,
+summary:focus-visible {
+  outline: 2px solid var(--rust);
+  outline-offset: 3px;
+}
+button:disabled {
+  cursor: not-allowed;
+  opacity: 0.55;
+}
+button,
+.primary,
+.secondary,
+.text-btn,
+.chip,
+.nav-link,
+.studio-tab-btn {
+  min-height: 44px;
+  min-width: 44px;
+}
+img,
+svg {
+  max-width: 100%;
+}
+h1,
+h2,
+h3,
+p,
+a {
+  overflow-wrap: anywhere;
+}
+h1,
+h2,
+h3 {
+  font-family: var(--serif);
+  font-weight: 500;
+}
+h1 {
+  font-size: 40px;
+  line-height: 1.35;
+  letter-spacing: -0.5px;
+}
+input,
+textarea,
+select {
+  min-width: 0;
+  max-width: 100%;
+  border: 1px solid var(--line);
+  border-radius: 3px;
+  background: var(--paper);
+  padding: 10px 12px;
+}
+textarea {
+  resize: vertical;
+}
+label {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  font-size: 13px;
+}
+input[type='checkbox'] {
+  accent-color: var(--green-text);
+  width: 18px;
+  height: 18px;
+}
+.check {
+  flex-direction: row;
+  align-items: center;
+  min-height: 44px;
+}
+.wrap {
+  width: min(1180px, calc(100% - 48px));
+  margin: auto;
+}
+#main {
+  min-height: 65vh;
+  outline: none;
+}
+.skip-link {
+  position: fixed;
+  top: -100px;
+  left: 20px;
+  z-index: 500;
+  background: var(--paper);
+  padding: 10px;
+}
+.skip-link:focus {
+  top: 10px;
+}
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+fieldset {
+  min-width: 0;
+  border: 1px solid var(--line);
+  padding: 12px 16px;
+}
+.eyebrow {
+  font: 11px/1.6 var(--mono);
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: var(--green-text);
+}
+.mini {
+  font: 11px/1.6 var(--mono);
+  color: var(--muted);
+}
+.muted {
+  color: var(--muted);
+}
+.primary,
+.secondary {
+  padding: 10px 20px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  border-radius: 2px;
+  font-size: 13.5px;
+  border: 1px solid var(--line);
+}
+.primary {
+  color: #fff;
+  background: var(--green);
+  border-color: var(--green-text);
+}
+.primary:hover {
+  background: var(--green-hover);
+}
+[data-theme='dark'] .primary,
+[data-theme='dark'] .chip.active {
+  color: #030b08;
+}
+.secondary {
+  background: var(--panel);
+}
+.secondary:hover {
+  background: var(--panel-subtle);
+}
+.text-btn {
+  display: inline-flex;
+  align-items: center;
+  color: var(--green-text);
+  font-size: 13.5px;
+  padding: 6px 0;
+}
+.text-btn:hover {
+  text-decoration: underline;
+}
+.badge {
+  display: inline-flex;
+  align-items: center;
+  font: 11px/1.5 var(--mono);
+  padding: 3px 9px;
+  background: var(--soft);
+  color: var(--green-text);
+  border: 1px solid var(--line);
+  border-radius: 2px;
+}
+.badge.warn {
+  color: var(--rust);
+  background: var(--rust-soft);
+}
+.badge.amber {
+  color: var(--ink-soft);
+  background: var(--amber-soft);
+}
+.tags,
+.actions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 12px;
+}
+.tag {
+  font: 11px var(--mono);
+  padding: 4px 8px;
+  border: 1px solid var(--line);
+  color: var(--muted);
+}
+a.tag {
+  display: inline-flex;
+  align-items: center;
+  min-height: 44px;
+}
+.chip {
+  padding: 7px 16px;
+  border: 1px solid var(--line);
+  border-radius: 22px;
+  font: 12.5px var(--mono);
+  background: var(--paper);
+}
+.chip.active {
+  color: #fff;
+  background: var(--green);
+  border-color: var(--green-text);
+}
+.state-box {
+  padding: 32px;
+  margin: 24px 0;
+  border: 1px solid var(--line);
+  background: var(--panel);
+}
+.state-box h2 {
+  margin: 0 0 12px;
+  font-size: 24px;
+}
+.error-message {
+  color: var(--rust);
+  padding: 14px 18px;
+  border-left: 3px solid var(--rust);
+  background: var(--rust-soft);
+  overflow-wrap: anywhere;
+}
+.notice {
+  padding: 14px 18px;
+  border-left: 3px solid var(--green);
+  background: var(--soft);
+}
+mark {
+  background: var(--amber-soft);
+  color: var(--ink);
+  text-decoration: underline;
+  text-decoration-color: var(--rust);
+}
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation: none !important;
+    transition: none !important;
+    scroll-behavior: auto !important;
+  }
+}

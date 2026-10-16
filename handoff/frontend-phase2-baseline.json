@@ -1,0 +1,89 @@
+{
+  "date": "2026-10-16",
+  "scope": "F4 frontend",
+  "dirty": [
+    " M .env.production",
+    " M README.md",
+    " M index.html",
+    " M public/404.html",
+    " M src/App.vue",
+    " M src/api/index.js",
+    " D src/components/PhysicsCanvas.vue",
+    " D src/components/PostCard.vue",
+    " M src/main.js",
+    " M src/router/index.js",
+    " M src/stores/admin.js",
+    " M src/stores/app.js",
+    " M src/stores/posts.js",
+    " D src/styles/base.css",
+    " D src/styles/components.css",
+    " M src/views/About.vue",
+    " D src/views/Categories.vue",
+    " M src/views/Home.vue",
+    " M src/views/PostDetail.vue",
+    " M src/views/Posts.vue",
+    " M src/views/Projects.vue",
+    " D src/views/Tags.vue",
+    " M src/views/admin/AdminLayout.vue",
+    " M src/views/admin/AdminLogin.vue",
+    " M src/views/admin/AdminPostEdit.vue",
+    " M src/views/admin/AdminPosts.vue",
+    "?? .gitignore",
+    "?? handoff/",
+    "?? src/api/mock.js",
+    "?? src/components/common/",
+    "?? src/components/content/",
+    "?? src/components/layout/",
+    "?? src/components/reading/",
+    "?? src/components/search/",
+    "?? src/components/visual/",
+    "?? src/composables/",
+    "?? src/config/",
+    "?? src/styles/layout.css",
+    "?? src/styles/tokens.css",
+    "?? src/styles/typography.css",
+    "?? src/utils/",
+    "?? src/views/NotFound.vue",
+    "?? src/views/Notes.vue",
+    "?? src/views/Taxonomy.vue",
+    "?? src/views/admin/Studio.vue"
+  ],
+  "files": [
+    {
+      "path": "src/api/index.js",
+      "sha256": "9DAA4A184594FA7E64F43CB2B397D130BC3ED55645D15FB341469298F0C6422B"
+    },
+    {
+      "path": "src/api/mock.js",
+      "sha256": "6C388694D4FFB1419C69BAEBB3F69BD98E5B529CB309879ABA0AD2B64EB58371"
+    },
+    {
+      "path": "src/views/admin/Studio.vue",
+      "sha256": "78EF00B520259677EBFCE2411E18B11895944B0E720FC2CAE217D09795576F19"
+    },
+    {
+      "path": "src/components/search/CommandPalette.vue",
+      "sha256": "1CDC843A1B079657FB61EB037A957D8727F844150FDA5795892155EC11CF1D63"
+    },
+    {
+      "path": "src/styles/layout.css",
+      "sha256": "94EB4AFDF66D5B8F78E9A990A7E31ECD2F29775A4C1492124D95F88272760A00"
+    },
+    {
+      "path": "src/components/common/ModalDialog.vue",
+      "sha256": "0D8BF275C52B9E13632139C4E1489469C8BE4EA53C5526F22FC20B1A88BF9A63"
+    },
+    {
+      "path": ".env.production",
+      "sha256": "EA3F34141FBE3B741198CE5B198B38635742D49B6EBD5A8B0B137D0C463C9BCE"
+    },
+    {
+      "path": "package.json",
+      "sha256": "0F032A883AE4B7C0F3E935449AD92A6DFBA5C75FE5F8350601EE1663858C61BF"
+    },
+    {
+      "path": "package-lock.json",
+      "sha256": "671EA108393714E085F1FB15458BE4FFCF1A5B1DDEA69AD2094225AE4EB62B1A"
+    }
+  ]
+}

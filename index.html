@@ -1,20 +1,38 @@
 <!doctype html>
-<html lang="zh-CN">
+<html lang="zh-CN" data-theme="light">
   <head>
     <meta charset="UTF-8" />
-    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="icon" type="image/svg+xml" href="%BASE_URL%favicon.svg" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>DevBlog - 我的博客</title>
+    <meta name="color-scheme" content="light dark" />
+    <title>DevBlog · 技术手记</title>
     <script>
-      // 处理 404 重定向：从 hash 中恢复原始路径（不刷新页面）
-      (function() {
-        var hash = location.hash;
-        if (hash && hash.length > 1) {
-          var path = hash.substring(1);
-          // 只修改 URL，不刷新页面
-          history.replaceState(null, null, path);
+      ;(function () {
+        try {
+          document.documentElement.dataset.theme =
+            localStorage.getItem('devblog_theme') === 'dark' ? 'dark' : 'light'
+        } catch (_) {}
+        var base = '/blog-front/'
+        var target = new URLSearchParams(location.search).get('__restore')
+        if (
+          !target &&
+          location.pathname === base &&
+          location.hash.indexOf('#/') === 0
+        )
+          target = base + location.hash.slice(2)
+        if (
+          target &&
+          target.indexOf(base) === 0 &&
+          !/[\\\u0000-\u001f]/.test(target)
+        ) {
+          var url = new URL(target, location.origin)
+          if (
+            url.origin === location.origin &&
+            url.pathname.indexOf(base) === 0
+          )
+            history.replaceState(null, '', url.pathname + url.search + url.hash)
         }
-      })();
+      })()
     </script>
   </head>
   <body>

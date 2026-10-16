@@ -1,0 +1,53 @@
+async page=>{
+  const ensure=(value,message)=>{if(!value)throw Error(message)},passed=[]
+  let mode='missing'
+  const base='http://127.0.0.1:4173/blog-front'
+  const ok=data=>({code:200,message:'BOUNDARY FIXTURE',data,timestamp:Date.now()})
+  await page.route('**/api/v1/**',async route=>{
+    const path=new URL(route.request().url()).pathname.replace(/^.*\/api\/v1/,'')
+    const headers={'access-control-allow-origin':'http://127.0.0.1:4173','access-control-allow-headers':'authorization,content-type','content-type':'application/json'}
+    const reply=(status,data)=>route.fulfill({status,headers,body:JSON.stringify(data)})
+    if(route.request().method()==='OPTIONS')return route.fulfill({status:204,headers})
+    if(path==='/auth/login')return reply(200,ok({accessToken:'boundary-fixture-session',tokenType:'Bearer',expiresAt:new Date(Date.now()+3600000).toISOString()}))
+    if(path==='/auth/me')return reply(200,ok({role:'ADMIN',expiresAt:new Date(Date.now()+3600000).toISOString()}))
+    if(mode==='missing')return reply(404,{code:404,message:'Fixture not connected',errorCode:'CONTENT_NOT_FOUND'})
+    if(mode==='forbidden')return reply(403,{code:403,message:'Fixture forbidden',errorCode:'SCOPE_DENIED'})
+    if(mode==='failed')return reply(500,{code:500,message:'Fixture failure',errorCode:'INTERNAL_ERROR',requestId:'boundary-500'})
+    if(mode==='loading')await new Promise(resolve=>setTimeout(resolve,650))
+    if(path==='/admin/captures/stats')return reply(200,ok({total:0,received:0,ready:0,held:0,included:0}))
+    if(path==='/admin/publishing-settings')return reply(200,ok({enabled:false,localTime:'22:30',timezone:'Asia/Shanghai',failurePolicy:'SKIP_ITEM',maxPostsPerDay:1,nextDueAt:null,version:1}))
+    return reply(200,ok({data:[],total:0,page:1,size:10,pages:0}))
+  })
+  await page.goto(base+'/about');await page.evaluate(()=>sessionStorage.removeItem('devblog_admin_v1'))
+  await page.goto(base+'/admin/login')
+  await page.getByLabel('管理员密码').fill('boundary-fixture')
+  await page.getByRole('button',{name:'登录工作台 ↗'}).click();await page.waitForURL('**/admin/posts')
+  for(const tab of ['inbox','runs','settings']){
+    await page.goto(base+'/admin/studio?tab='+tab)
+    await page.getByRole('heading',{name:'当前接口尚不可用'}).first().waitFor()
+    ensure(await page.locator('.capture-row').count()===0,'404 invented rows')
+    if(tab==='settings')ensure(await page.getByRole('button',{name:'保存发布设置'}).count()===0,'404 fabricated settings')
+  }
+  passed.push('Missing endpoints explicitly unconnected, no fake rows or settings')
+  mode='forbidden';await page.goto(base+'/admin/studio?tab=inbox')
+  await page.getByRole('heading',{name:'没有访问权限'}).first().waitFor()
+  mode='failed';await page.goto(base+'/admin/studio?tab=inbox')
+  await page.getByText('请求编号：boundary-500',{exact:true}).first().waitFor()
+  mode='loading';await page.goto(base+'/admin/studio?tab=inbox')
+  await page.getByText('正在翻开手记…',{exact:true}).waitFor()
+  await page.getByText('当前筛选下没有私有片段。',{exact:true}).waitFor()
+  ensure(await page.locator('.capture-row').count()===0,'Empty fixture showed fake content')
+  passed.push('403, 500/requestId, loading and empty states')
+  await page.goto(base+'/admin/studio?tab=settings');await page.getByLabel('每日整理时间').waitFor()
+  ensure(!(await page.getByLabel('启用每日自动整理与发布').isChecked()),'Default automatically enabled')
+  await page.getByLabel('每日整理时间').fill('23:50')
+  await page.evaluate(()=>{window.__leaveChecks=0;window.confirm=()=>{window.__leaveChecks++;return false}})
+  await page.getByRole('link',{name:'学习收件箱',exact:true}).click()
+  ensure(new URL(page.url()).searchParams.get('tab')==='settings'&&await page.getByLabel('每日整理时间').inputValue()==='23:50'&&await page.evaluate(()=>window.__leaveChecks)===1,'Unsaved tab navigation lost content or prompted twice')
+  const prevented=await page.evaluate(()=>{const event=new Event('beforeunload',{cancelable:true});window.dispatchEvent(event);return event.defaultPrevented})
+  ensure(prevented,'Dirty refresh did not prevent unload')
+  await page.getByLabel('每日整理时间').fill('22:30')
+  passed.push('Settings tab guard confirms once and dirty beforeunload is prevented')
+  await page.unroute('**/api/v1/**')
+  return JSON.stringify({suite:'phase2-http-boundaries',passed,realBackendValidated:false})
+}

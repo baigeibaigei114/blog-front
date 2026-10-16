@@ -1,53 +1,55 @@
 import { defineStore } from 'pinia'
 import { ref } from 'vue'
-import { adminApi, auth } from '../api'
+import { adminApi, auth, ApiError } from '../api'
 
 export const useAdminStore = defineStore('admin', () => {
   const isLoggedIn = ref(false)
-  const loading = ref(false)
-
-  // 检查登录状态
+  const expiresAt = ref(null)
+  let checking
+  function clear() {
+    isLoggedIn.value = false
+    expiresAt.value = null
+    auth.removeToken()
+  }
+  window.addEventListener('devblog:unauthorized', clear)
   async function checkAuth() {
-    // JWT 无状态，直接检查本地是否有 token
-    const token = auth.getToken()
-    isLoggedIn.value = !!token
-  }
-
-  // 登录
-  async function login(password) {
-    loading.value = true
-    try {
-      const res = await adminApi.login(password)
-      if (res.data?.token) {
-        auth.setToken(res.data.token)
+    if (!auth.getToken()) {
+      clear()
+      return false
+    }
+    if (checking) return checking
+    checking = (async () => {
+      try {
+        const session = await adminApi.me()
+        if (
+          session.role !== 'ADMIN' ||
+          !Number.isFinite(Date.parse(session.expiresAt)) ||
+          Date.parse(session.expiresAt) <= Date.now()
+        )
+          throw new ApiError(401, '会话已过期')
         isLoggedIn.value = true
-        return { success: true }
+        expiresAt.value = session.expiresAt
+        return true
+      } catch (error) {
+        isLoggedIn.value = false
+        if (error.status === 401 || error.status === 403) clear()
+        throw error
+      } finally {
+        checking = undefined
       }
-      return { success: false, message: '登录失败' }
-    } catch (error) {
-      return { success: false, message: error.response?.data?.message || '登录失败' }
-    } finally {
-      loading.value = false
-    }
+    })()
+    return checking
   }
-
-  // 退出登录
+  async function login(password) {
+    const session = await adminApi.login(password)
+    if (!session.accessToken || session.tokenType !== 'Bearer')
+      throw new Error('登录响应不符合 v1 契约')
+    auth.setToken(session.accessToken)
+    await checkAuth()
+  }
   async function logout() {
-    try {
-      await adminApi.logout()
-    } catch (error) {
-      console.error('Logout error:', error)
-    } finally {
-      auth.removeToken()
-      isLoggedIn.value = false
-    }
+    await adminApi.logout()
+    clear()
   }
-
-  return {
-    isLoggedIn,
-    loading,
-    checkAuth,
-    login,
-    logout
-  }
+  return { isLoggedIn, expiresAt, checkAuth, login, logout, clear }
 })
