@@ -24,7 +24,6 @@ const { data, loading, error, reload } = useResource(publicApi.home)
           ></span
         >
       </div>
-      <p>{{ site.description }}</p>
       <div class="actions">
         <RouterLink class="primary" to="/posts">翻开技术手记 ↗</RouterLink
         ><RouterLink class="secondary" to="/notes">浏览学习日志</RouterLink

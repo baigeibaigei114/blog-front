@@ -10,7 +10,6 @@ import VerificationBadge from '../components/content/VerificationBadge.vue'
       记录不仅是为了备忘，<br />更是为了看清理解如何发生。
     </blockquote>
     <p>我是{{ site.author }}。{{ site.about }}</p>
-    <p>{{ site.description }}</p>
     <h2>来源清楚，边界明确。</h2>
     <p>
       来源工具标识说明内容的整理来源。AI
