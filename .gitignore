@@ -8,3 +8,4 @@ dist/
 /.nojekyll
 .worktrees/
 output/
+/handoff/
