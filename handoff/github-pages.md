@@ -34,8 +34,32 @@ npx --yes --package @playwright/cli playwright-cli -s=pages-local close
 
 初次线上检查：Windows curl/Powershell TLS 验证失败，Edge 返回 ERR_CERT_AUTHORITY_INVALID。仅读取握手证书诊断后确认其 subject 为 blockpage.nextdns.io、issuer 为 NextDNS Blockpage Edge CA，实际到达本机 DNS 的拦截页，并非 GitHub 的证书。Google 公共 DNS 返回 185.199.108.153 等 GitHub Pages 地址；单次 curl --resolve 及独立 QA 浏览器的 host-resolver-rules 指定该地址后，保持 TLS 验证即可读取真实站点。未更改系统 DNS、代理或证书，默认 DNS 访问仍可能受 NextDNS 规则影响。
 
-真实站点检查已发现并修复空可选查询参数问题：默认归档请求原来发送 q=，后端返回 400“q 需要 1–100 字符”；统一 API 层改为省略空字符串/null/undefined 查询参数，保留非空筛选、0 与 false。pages-query.js 在生产构建 HTTP 拦截夹具上通过 3 组检查：默认省略、非空组合保留、清除后省略；这与真实网络检查分开记录。修复后的发布与完整线上结果在本次执行结束前补充。
+真实站点检查已发现并修复空可选查询参数问题：默认归档请求原来发送 q=，后端返回 400“q 需要 1–100 字符”；统一 API 层改为省略空字符串/null/undefined 查询参数，保留非空筛选、0 与 false。pages-query.js 在生产构建 HTTP 拦截夹具上通过 3 组检查：默认省略、非空组合保留、清除后省略；这与真实网络检查分开记录。
 
-后端真实 v1 仍需单独联调；静态部署成功不能证明文章、登录、收件箱或自动发布业务可用。接口失败仍显示真实错误，不提供生产 mock。
+修复源码提交：1020309；最终静态发布提交：f95eccf669103ffa4c909f5272f3c35eb4c6dec0，入口 index-CevlVioG.js。[最终 GitHub Pages 运行](https://github.com/baigeibaigei114/blog-front/actions/runs/38922907393)的 build/deploy/report-build-status 全部 success。
+
+Edge 的 pages-live.js 完成 9 组线上检查，没有拦截 API：
+
+- 新生产入口、无 mock 标识，144 次静态资源响应全部 200，pageErrors 为空。
+- 首页 390/768/1440px 与日夜主题通过，无页面横向溢出；代表性截图已查看。
+- 导航、关于页直达/刷新、旧文章路由、query/hash 与 /#/posts/id 恢复通过。
+- 真实公开文章 /posts/7 正文加载、刷新、390px 阅读目录抽屉及 Esc 通过。
+- 真实首页、文章归档、Elasticsearch 搜索、清除筛选、日志列表、分类/标签及项目接口 GET 返回 200；默认归档和清除后的请求不再包含 q= 或其他空条件。日志查询的 verifiedOnly=false 正常保留。
+- /posts/42 与 /notes/9001 在真实库返回 404，界面显示找不到内容；它们只用于检查缺失 ID 的路径恢复，未声称该内容存在。
+- Ctrl+K、Enter 导航、Esc，以及工作台受保护路径/登录页刷新通过。没有填写真实口令或提交真实管理操作。
+
+复测中公开 API 曾返回 Cloudflare 502 且缺少 CORS 头；应用显示真实错误，没有假数据。最终检查时服务已恢复，以上公开 GET 验证通过。机器结果完整保存在 github-pages-validation.json；其中一次 ERR_ABORTED 是切换查询/页面时取消的 GET。没有修改后端来处理此临时故障。
+
+测试浏览器曾缓存前一版 HTML，出现页面间切换加载旧入口的现象；清理独立 QA profile 的浏览器缓存后复测新入口通过。用户若看到旧页面可先 Ctrl+F5 硬刷新。保留旧哈希静态资源可减少旧缓存页面的资源 404；不将浏览器缓存中的旧版本算作新版本验收结果。
+
+上述公开只读接口已在本次线上复测连接成功；真实管理员登录、写入、收件箱和自动发布仍未验收。未做移动真机、Safari/Firefox、macOS、负载或服务端权限验收。接口失败仍显示真实错误，不提供生产 mock。
+
+## 下次发布与停止
+
+以后修改源码后需先 npm run build，通过 pages-build.mjs，再将生成的 docs 同步并提交到 frontend 分支后推送；只推 master 不会更新当前 Pages。保留 public/.nojekyll，不能手改 docs 里的 HTML/JS。发布提交通过临时、无脏改动的 Git worktree 操作，保留远程历史，没有强推。
+
+本次结束已关闭 pages-local、pages-live 和 pages-live-mapped 测试浏览器，已停止本次启动的 4174 静态模拟服务，临时发布 worktree 已移除，没有保留新的本地预览服务。若自行运行上面的模拟服务，在启动终端 Ctrl+C 停止；若原终端不可用，先核对 4174 的 PID/CommandLine 确实是本仓库 preview-pages.mjs，再停止对应进程。
+
+线上复查需先解决本机 DNS 拦截，或只对独立 QA 浏览器使用经过公共 DNS 核对的临时解析。该配置在被忽略的 output/pages-browser-config.json，未加入源码或生产资源；TLS 校验保持开启。pages-live.js 中的入口哈希针对本次发布，下一次构建后需按新产物更新断言。截图位于忽略目录 output/playwright/pages-live-*.png。
 
 GitHub Pages 发布目录及 .nojekyll 行为依据：[GitHub 官方发布源文档](https://docs.github.com/en/pages/getting-started-with-github-pages/configuring-a-publishing-source-for-your-github-pages-site)。

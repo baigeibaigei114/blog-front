@@ -1,0 +1,360 @@
+{
+  "date": "2026-10-16",
+  "repository": "baigeibaigei114/blog-front",
+  "commits": {
+    "feature": "b9bc9e4",
+    "sourceFix": "1020309",
+    "deployed": "f95eccf669103ffa4c909f5272f3c35eb4c6dec0"
+  },
+  "pages": {
+    "url": "https://baigeibaigei114.github.io/blog-front/",
+    "branch": "frontend",
+    "directory": "/docs",
+    "marker": "docs/.nojekyll",
+    "workflowRun": 38922907393,
+    "workflowUrl": "https://github.com/baigeibaigei114/blog-front/actions/runs/38922907393",
+    "conclusion": "success",
+    "jobs": {
+      "build": "success",
+      "deploy": "success",
+      "report-build-status": "success"
+    }
+  },
+  "build": {
+    "command": "npm run build",
+    "passed": true,
+    "vite": "8.0.1",
+    "productionModules": 221,
+    "productionScripts": 32,
+    "entry": "index-CevlVioG.js",
+    "mockIncluded": false
+  },
+  "localTests": [
+    {
+      "script": "checks/pages-build.mjs",
+      "passed": true
+    },
+    {
+      "script": "checks/pages-routing.js",
+      "passedGroups": 4,
+      "apiIntercepted": true
+    },
+    {
+      "script": "checks/pages-query.js",
+      "passedGroups": 3,
+      "apiIntercepted": true
+    }
+  ],
+  "network": {
+    "defaultDnsTest": "ERR_CERT_AUTHORITY_INVALID",
+    "observedCertificate": {
+      "subject": "blockpage.nextdns.io",
+      "issuer": "NextDNS Blockpage Edge CA"
+    },
+    "qaOnlyResolution": "185.199.108.153",
+    "resolutionVerifiedWith": "Google public DNS HTTPS response and GitHub official Pages address documentation",
+    "tlsValidationForHttpAndBrowser": true,
+    "systemDnsProxyOrCertificateModified": false,
+    "browserCacheClearedForReleaseTest": true
+  },
+  "transientBackendIncident": {
+    "observed": true,
+    "httpStatus": 502,
+    "server": "cloudflare",
+    "corsHeaderMissing": true,
+    "recoveredInFinalLiveRun": true
+  },
+  "live": {
+    "suite": "github-pages-live",
+    "network": "Per-QA-browser DNS override to verified GitHub Pages address; TLS validation enabled; no API interception",
+    "passed": [
+      "Current production entry served over verified HTTPS; no mock banner",
+      "Hosted home 390/768/1440 widths and both themes",
+      "Hosted navigation and true 404 refresh restore About",
+      "Real published article body, mobile reading drawer/Escape and refresh",
+      "Historical article direct path, query, hash and refresh preserved; content availability reported separately",
+      "Legacy hash article path and NOTE deep link recover",
+      "Hosted archive/search/clear dispatch and projects shell; API availability recorded separately",
+      "Hosted Ctrl+K, Enter command navigation and Escape",
+      "Protected studio direct path and login refresh; no credentials submitted"
+    ],
+    "assetsLoaded": 144,
+    "assetFailures": [],
+    "pageErrors": [],
+    "apiRequests": [
+      {
+        "method": "GET",
+        "path": "/api/v1/public/home",
+        "query": {}
+      },
+      {
+        "method": "GET",
+        "path": "/api/v1/posts/7",
+        "query": {}
+      },
+      {
+        "method": "GET",
+        "path": "/api/v1/posts",
+        "query": {
+          "categorySlug": "structure",
+          "size": "4",
+          "page": "1"
+        }
+      },
+      {
+        "method": "GET",
+        "path": "/api/v1/posts/7",
+        "query": {}
+      },
+      {
+        "method": "GET",
+        "path": "/api/v1/posts",
+        "query": {
+          "categorySlug": "structure",
+          "size": "4",
+          "page": "1"
+        }
+      },
+      {
+        "method": "GET",
+        "path": "/api/v1/assets/8",
+        "query": {}
+      },
+      {
+        "method": "GET",
+        "path": "/api/v1/assets/4",
+        "query": {}
+      },
+      {
+        "method": "GET",
+        "path": "/api/v1/assets/1",
+        "query": {}
+      },
+      {
+        "method": "GET",
+        "path": "/api/v1/posts/42",
+        "query": {}
+      },
+      {
+        "method": "GET",
+        "path": "/api/v1/posts/42",
+        "query": {}
+      },
+      {
+        "method": "GET",
+        "path": "/api/v1/posts/42",
+        "query": {}
+      },
+      {
+        "method": "GET",
+        "path": "/api/v1/notes",
+        "query": {
+          "page": "1",
+          "size": "10",
+          "verifiedOnly": "false"
+        }
+      },
+      {
+        "method": "GET",
+        "path": "/api/v1/public/home",
+        "query": {}
+      },
+      {
+        "method": "GET",
+        "path": "/api/v1/notes/9001",
+        "query": {}
+      },
+      {
+        "method": "GET",
+        "path": "/api/v1/posts",
+        "query": {
+          "page": "1",
+          "size": "10",
+          "sort": "newest"
+        }
+      },
+      {
+        "method": "GET",
+        "path": "/api/v1/categories",
+        "query": {}
+      },
+      {
+        "method": "GET",
+        "path": "/api/v1/tags",
+        "query": {}
+      },
+      {
+        "method": "GET",
+        "path": "/api/v1/posts",
+        "query": {
+          "page": "1",
+          "size": "10",
+          "q": "Elasticsearch",
+          "sort": "newest"
+        }
+      },
+      {
+        "method": "GET",
+        "path": "/api/v1/posts",
+        "query": {
+          "page": "1",
+          "size": "10",
+          "sort": "newest"
+        }
+      },
+      {
+        "method": "GET",
+        "path": "/api/v1/posts",
+        "query": {
+          "page": "1",
+          "size": "10",
+          "sort": "newest"
+        }
+      },
+      {
+        "method": "GET",
+        "path": "/api/v1/projects",
+        "query": {}
+      }
+    ],
+    "apiReads": [
+      {
+        "method": "GET",
+        "path": "/api/v1/public/home",
+        "query": {},
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/api/v1/posts/7",
+        "query": {},
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/api/v1/posts/7",
+        "query": {},
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/api/v1/posts/42",
+        "query": {},
+        "status": 404
+      },
+      {
+        "method": "GET",
+        "path": "/api/v1/posts/42",
+        "query": {},
+        "status": 404
+      },
+      {
+        "method": "GET",
+        "path": "/api/v1/posts/42",
+        "query": {},
+        "status": 404
+      },
+      {
+        "method": "GET",
+        "path": "/api/v1/notes",
+        "query": {
+          "page": "1",
+          "size": "10",
+          "verifiedOnly": "false"
+        },
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/api/v1/public/home",
+        "query": {},
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/api/v1/notes/9001",
+        "query": {},
+        "status": 404
+      },
+      {
+        "method": "GET",
+        "path": "/api/v1/tags",
+        "query": {},
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/api/v1/categories",
+        "query": {},
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/api/v1/posts",
+        "query": {
+          "page": "1",
+          "size": "10",
+          "sort": "newest"
+        },
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/api/v1/posts",
+        "query": {
+          "page": "1",
+          "size": "10",
+          "q": "Elasticsearch",
+          "sort": "newest"
+        },
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/api/v1/posts",
+        "query": {
+          "page": "1",
+          "size": "10",
+          "sort": "newest"
+        },
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/api/v1/projects",
+        "query": {},
+        "status": 200
+      }
+    ],
+    "apiFailures": [
+      {
+        "method": "GET",
+        "path": "/api/v1/posts",
+        "error": "net::ERR_ABORTED"
+      }
+    ],
+    "readStates": {
+      "home": true,
+      "article": true,
+      "archive": true,
+      "search": true,
+      "projects": true
+    },
+    "article42ErrorState": true,
+    "realPublishedArticlePath": "/blog-front/posts/7",
+    "realAdminOrF4BusinessValidated": false
+  },
+  "preserved": {
+    "productionEnvContentsUnchanged": true,
+    "productionEnvTracked": false,
+    "packageAndLockUnchanged": true,
+    "backendSharedDocsOrPrototypeModified": false
+  },
+  "limits": [
+    "No real administrator login or mutations",
+    "No real F4 business acceptance",
+    "No real device, Safari/Firefox, macOS or load test",
+    "Default local DNS path was blocked by NextDNS; live QA used per-browser resolution without disabling TLS"
+  ],
+  "testServicesAtHandoff": "QA browsers and temporary Pages emulator closed; no new preview service retained"
+}
