@@ -2,11 +2,11 @@
 import { publicApi } from '../api'
 import { useResource } from '../composables/useResource'
 import { dateLabel } from '../utils/content'
+import { rstore } from '../config/projects'
 import { site } from '../config/site'
 import ResourceState from '../components/common/ResourceState.vue'
 import ArticleCard from '../components/content/ArticleCard.vue'
 import VerificationBadge from '../components/content/VerificationBadge.vue'
-import ContourVisual from '../components/visual/ContourVisual.vue'
 const { data, loading, error, reload } = useResource(publicApi.home)
 </script>
 <template>
@@ -30,7 +30,14 @@ const { data, loading, error, reload } = useResource(publicApi.home)
         ><RouterLink class="text-btn" to="/about">关于刊物 →</RouterLink>
       </div>
     </div>
-    <ContourVisual />
+    <RouterLink class="project-cover" to="/projects">
+      <img :src="rstore.cover" alt="" width="500" height="500" />
+      <div class="project-cover-caption">
+        <span>项目精选 / RStore</span>
+        <strong>{{ rstore.title }}</strong>
+        <span class="project-cover-arrow" aria-hidden="true">↗</span>
+      </div>
+    </RouterLink>
   </section>
   <div class="topic-strip">
     <span>正在探索 / TOPICS</span
@@ -98,3 +105,78 @@ const { data, loading, error, reload } = useResource(publicApi.home)
     </aside>
   </div>
 </template>
+
+<style scoped>
+.project-cover {
+  position: relative;
+  isolation: isolate;
+  display: flex;
+  align-items: flex-end;
+  min-height: 330px;
+  overflow: hidden;
+  border: 1px solid var(--line);
+  border-radius: 4px;
+  background: #182721;
+  box-shadow: var(--shadow);
+  color: #f8f7ee;
+}
+
+.project-cover img {
+  position: absolute;
+  z-index: -2;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 250ms ease-out;
+}
+
+.project-cover::before {
+  position: absolute;
+  z-index: -1;
+  inset: 0;
+  background: linear-gradient(0deg, rgb(10 23 19 / 96%), transparent 72%);
+  content: '';
+}
+
+.project-cover:hover img {
+  transform: scale(1.04);
+}
+
+.project-cover-caption {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  align-items: end;
+  gap: 4px 12px;
+  width: 100%;
+  padding: clamp(16px, 3vw, 28px);
+}
+
+.project-cover-caption span:first-child {
+  grid-column: 1;
+  font: 12px/1.5 var(--mono);
+  letter-spacing: 0.08em;
+  color: #d0e5cc;
+}
+
+.project-cover-caption strong {
+  font: 500 clamp(23px, 3vw, 32px)/1.25 var(--serif);
+}
+
+.project-cover-arrow {
+  display: grid;
+  width: 36px;
+  height: 36px;
+  grid-area: 1 / 2 / 3 / 3;
+  place-items: center;
+  border: 1px solid rgb(248 247 238 / 50%);
+  border-radius: 50%;
+  font-size: 18px;
+}
+
+@media (max-width: 640px) {
+  .project-cover {
+    min-height: 245px;
+  }
+}
+</style>
